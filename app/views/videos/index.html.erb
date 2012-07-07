@@ -1,0 +1,36 @@
+<h1>Listing videos</h1>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Youtube url</th>
+    <th>Accepted?</th>
+    <th>Rate</th>
+    <th>Comments</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @videos.each do |video| %>
+  <tr>
+    <td><%= video.title %></td>
+    <td><%= video.description %></td>
+    <td><img src="<%= video.get_thumbnail %>" /></td>
+    <td><%= video.accepted.to_s %></td>
+    <td><%= video.calculate_rate video %></td>
+    <td><%= video.comments.count %></td>
+    <td><%= link_to 'Show', video %></td>
+    <td><%= link_to 'Edit', edit_video_path(video) if user_signed_in? %></td>
+    <td><%= link_to 'Destroy', video, method: :delete, data: { confirm: 'Are you sure?' } if user_signed_in? %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= paginate @videos %>
+
+<br />
+<% if user_signed_in? %>
+  <%= link_to 'New Video', new_video_path %>
+<% end %>

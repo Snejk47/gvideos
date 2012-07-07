@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gvideos</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+  <div class="panel">
+    <%= link_to "Main (#{count_main_videos})", root_path %> | 
+    <%= link_to "Waiting (#{count_waiting_videos})", videos_waiting_path %> |
+
+    <% if user_signed_in? %>
+      You are logged on <%= current_user.username %> (<%= current_user.email %>). Not you? <%= link_to "Log out", destroy_user_session_path, method: 'delete' %>
+    <% else %>
+      <%= link_to "Sign up", new_user_registration_path %> or <%= link_to "Sign in", new_user_session_path %>
+    <% end %>
+  </div>
+
+  <p class="notice"><%= notice %></p>
+  <p class="alert"><%= alert %></p>
+
+<%= yield %>
+
+</body>
+</html>

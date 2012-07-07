@@ -1,0 +1,72 @@
+<% if user_signed_in? %>
+<script type="text/javascript" charset="utf-8">
+  $(document).ready(function(){
+      $('#star').raty({
+        path: '/img-star',
+        <% user_rate = get_user_video_rate(@video.rates) %>
+        <% if user_rate > 0 %>
+          score: <%= user_rate %>,
+          readOnly: true,
+        <% end %>
+        click: function(score, evt) {
+          $.get('<%= video_path @video %>/rate/' + score, function(data) {
+            if(data.indexOf('not_again') == -1 && data.indexOf('not_allowed') == -1)
+              $('#star').html($('#star').html() + '<br />' + data);
+          });
+        }
+      });
+  });
+</script>
+<% end %>
+
+<p>
+  <b>Title:</b>
+  <%= @video.title %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @video.description %>
+</p>
+
+<p>
+  <b>Author:</b>
+  <%= @video.user.username %>
+</p>
+
+<p>
+  <b>Youtube url:</b>
+  <%= raw @video.embeded_code %>
+</p>
+
+<% if user_signed_in? %>
+  <p>
+    <b>Rate:</b>
+    <div id="star"></div>
+  </p>
+
+  <%= link_to 'Edit', edit_video_path(@video) %> |
+<% end %>
+
+<%= link_to 'Back', videos_path %>
+
+<% if user_signed_in? %>
+<div class="comments">
+  <% @video.comments.each do |comment| %>
+    <p class="comment">
+      <b><%= comment.user.username %></b>: <%= comment.content %>
+    </p>
+  <% end %>
+  <p class="comment_form">
+    <%= form_for [@video, @video.comments.new] do |f| %>
+      <div class="field">
+        <%= f.label :content, "Content" %>
+        <%= f.text_area :content %>
+      </div>
+      <div class="actions">
+        <%= f.submit %>
+      </div>
+    <% end %>
+  </p>
+</div>
+<% end %>
