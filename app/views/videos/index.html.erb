@@ -19,11 +19,13 @@
     <td><%= video.description %></td>
     <td><img src="<%= video.get_thumbnail %>" /></td>
     <td><%= video.accepted.to_s %></td>
-    <td><%= video.calculate_rate video %></td>
+    <td><%= video.calculate_rate %></td>
     <td><%= video.comments.count %></td>
     <td><%= link_to 'Show', video %></td>
+    <% if can? :manage, video %>
     <td><%= link_to 'Edit', edit_video_path(video) if user_signed_in? %></td>
     <td><%= link_to 'Destroy', video, method: :delete, data: { confirm: 'Are you sure?' } if user_signed_in? %></td>
+    <% end %>
   </tr>
 <% end %>
 </table>

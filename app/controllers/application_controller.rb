@@ -9,15 +9,15 @@ class ApplicationController < ActionController::Base
     Video.where("accepted = ?", false).count
   end
 
-  def get_user_video_rate(rates)
-    r = rates.where('user_id = ?', current_user.id)
-    if r.count > 0
-      r.first.rate
-    else
-      0
-    end
-  end
+  # def get_user_video_rate(rates)
+  #   r = rates.where('user_id = ?', current_user.id)
+  #   if r.count > 0
+  #     r.first.rate
+  #   else
+  #     0
+  #   end
+  # end
 
-  helper_method :count_main_videos, :count_waiting_videos, :get_user_video_rate
+  helper_method :count_main_videos, :count_waiting_videos#, :get_user_video_rate
 
 end

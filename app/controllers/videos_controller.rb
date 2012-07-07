@@ -12,6 +12,10 @@ class VideosController < ApplicationController
 
   def show
     @video = Video.includes(:comments).find(params[:id])
+    if user_signed_in?
+      gon.user_rate = @video.get_user_video_rate(current_user.id)
+      gon.video_rate_path = video_rate_path(@video)
+    end
   end
 
   def new
@@ -51,18 +55,17 @@ class VideosController < ApplicationController
   end
 
   def rate
-    # refactor this to only ajax response
-    if params[:rate].to_i > 0
-      rate = Rate.where('user_id = ? and video_id = ?', current_user.id, params[:video_id])
-      if rate.count > 0
-        render text: 'not_again'
+    if params[:score].to_i > 0
+      if Rate.where('user_id = ? and video_id = ?', current_user.id, params[:video_id]).count > 0 # check if user dont try to vote the same video again
+        render text: 'You can\'t rate this video again.'
       else
         video = Video.find(params[:video_id])
-        video.rates.create(user_id: current_user.id, rate_type: 'normal', rate: params[:rate])
+        video.rates.create(user_id: current_user.id, rate_type: 'normal', rate: params[:score])
         render text: 'Thanks for your rate.'
       end
     else
-      render text: 'not_allowed'
+      render text: 'You can\'t rate with zero.'
     end
   end
+
 end

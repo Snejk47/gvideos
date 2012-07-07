@@ -13,4 +13,9 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :username, :email, :password, :password_confirmation, :remember_me
   # attr_accessible :title, :body
+  
+  def role?(r)
+    role == r.to_s
+  end
+
 end

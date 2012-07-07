@@ -18,14 +18,23 @@ class Video < ActiveRecord::Base
     "http://img.youtube.com/vi/#{v}/2.jpg"
   end
 
-  def calculate_rate(v)
-    c = v.rates.count
+  def get_user_video_rate(id)
+     r = rates.where('user_id = ?', id)
+     if r.count > 0
+       r.first.rate
+     else
+       0
+     end
+  end
+
+  def calculate_rate
+    c = rates.count
     if c > 0
       sum = 0 # variable for storing actual sum of rates
-      v.rates.each do |rate|
-        sum += rate.rate
+      rates.each do |rate|
+        sum += rate.rate if !rate.rate.nil? 
       end
-      sum / v.rates.count
+      sum / c
     else
       0
     end

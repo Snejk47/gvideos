@@ -1,24 +1,3 @@
-<% if user_signed_in? %>
-<script type="text/javascript" charset="utf-8">
-  $(document).ready(function(){
-      $('#star').raty({
-        path: '/img-star',
-        <% user_rate = get_user_video_rate(@video.rates) %>
-        <% if user_rate > 0 %>
-          score: <%= user_rate %>,
-          readOnly: true,
-        <% end %>
-        click: function(score, evt) {
-          $.get('<%= video_path @video %>/rate/' + score, function(data) {
-            if(data.indexOf('not_again') == -1 && data.indexOf('not_allowed') == -1)
-              $('#star').html($('#star').html() + '<br />' + data);
-          });
-        }
-      });
-  });
-</script>
-<% end %>
-
 <p>
   <b>Title:</b>
   <%= @video.title %>
@@ -39,12 +18,14 @@
   <%= raw @video.embeded_code %>
 </p>
 
-<% if user_signed_in? %>
+<% if can? :rate, Video %>
   <p>
     <b>Rate:</b>
     <div id="star"></div>
   </p>
+<% end %>
 
+<% if can? :update, @video %>
   <%= link_to 'Edit', edit_video_path(@video) %> |
 <% end %>
 

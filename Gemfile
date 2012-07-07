@@ -28,6 +28,7 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'devise'
 gem 'cancan'
 gem 'kaminari'
+gem 'gon'
 
 group :test, :development do
   gem 'rspec-rails'
