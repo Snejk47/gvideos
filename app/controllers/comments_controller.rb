@@ -13,6 +13,7 @@ class CommentsController < ApplicationController
     if @comment.save
       redirect_to video_path(params[:video_id]), notice: 'Comment was successfully created.'
     else
+      @video = Video.find(params[:video_id])
       render template: 'videos/show' 
     end
   end
