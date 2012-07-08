@@ -1,6 +1,11 @@
 class Video < ActiveRecord::Base
   attr_accessible :user_id, :accepted, :description, :title, :youtube_url
 
+  validates :title, presence: true, length: { minimum: 5, maximm: 30 }
+  validates :description, presence: true, length: { minimum: 3, maximm: 100 }
+  validates :youtube_url, format: { with: /v=([\w\d_-]+)&?/ }
+
+
   belongs_to :user
   has_many :comments
   has_many :rates
@@ -43,7 +48,7 @@ class Video < ActiveRecord::Base
 private
   
   def get_v
-    youtube_url.scan(/v=([\w\d]+)&?/)[0][0]
+    youtube_url.scan(/v=([\w\d_-]+)&?/)[0][0]
   end
 
 end
