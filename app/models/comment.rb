@@ -1,6 +1,6 @@
 class Comment < ActiveRecord::Base
   attr_accessible :video_id, :content, :user_id
-  validates :content, presence: true, length: { minimum: 10, maximum: 200 }
+  validates :content, length: { minimum: 10, maximum: 200 }
 
   belongs_to :user
   belongs_to :video

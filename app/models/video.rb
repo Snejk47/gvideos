@@ -1,8 +1,8 @@
 class Video < ActiveRecord::Base
   attr_accessible :user_id, :accepted, :description, :title, :youtube_url
 
-  validates :title, presence: true, length: { minimum: 5, maximm: 30 }
-  validates :description, presence: true, length: { minimum: 3, maximm: 100 }
+  validates :title, length: { minimum: 5, maximm: 30 }
+  validates :description, length: { minimum: 3, maximm: 100 }
   validates :youtube_url, format: { with: /v=([\w\d_-]+)&?/ }
 
 

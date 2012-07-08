@@ -9,6 +9,7 @@ class Ability
       can :manage, :all
     elsif user.role? :user
       can :rate, Video
+      can :create, Comment
       can :read, :all
     else
       can :read, :all
