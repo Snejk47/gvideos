@@ -40,7 +40,7 @@
   <% end %>
   <p class="comment_form">
     <%= form_for [@video, @video.comments.new] do |f| %>
-      <% if @comment.errors.any? %>
+      <% if @comment && @comment.errors.any? %>
         <div id="error_explantation">
           <h2><%= pluralize(@comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
 
